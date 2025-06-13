@@ -2,6 +2,9 @@ package com.example.woof
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 ///// FOUNDATION
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -54,31 +57,41 @@ fun DogItem(
 ) {
     var expanded by remember { mutableStateOf(false) }
     Card(modifier = modifier) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.padding_small),
-                    )
-        ) {
-            DogIcon(dog.imageResourceId,)
-            DogInformation(dog.name, dog.age)
-            Spacer(modifier = Modifier.weight(1f))
-            DogItemButtom(
-                expanded = expanded,
-                onClick = { expanded = !expanded },
-                Modifier.weight(2f)
-            )
-        }
-        if(expanded){
-            DogHobby(
-                dog.hobbies,
-                modifier = Modifier.padding(
-                    start = dimensionResource(R.dimen.padding_medium),
-                    top = dimensionResource(R.dimen.padding_small),
-                    end = dimensionResource(R.dimen.padding_medium),
-                    bottom = dimensionResource(R.dimen.padding_medium)
+        Column (
+            modifier = Modifier.animateContentSize(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioNoBouncy,
+                    stiffness = Spring.StiffnessMedium
                 )
             )
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(dimensionResource(id = R.dimen.padding_small),
+                    )
+            ) {
+                DogIcon(dog.imageResourceId,)
+                DogInformation(dog.name, dog.age)
+                Spacer(modifier = Modifier.weight(1f))
+                DogItemButtom(
+                    expanded = expanded,
+                    onClick = { expanded = !expanded },
+                    Modifier.weight(2f)
+                )
+            }
+            if(expanded){
+                DogHobby(
+                    dog.hobbies,
+                    modifier = Modifier.padding(
+                        start = dimensionResource(R.dimen.padding_medium),
+                        top = dimensionResource(R.dimen.padding_small),
+                        end = dimensionResource(R.dimen.padding_medium),
+                        bottom = dimensionResource(R.dimen.padding_medium)
+                    )
+                )
+            }
+
         }
 
     }
