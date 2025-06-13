@@ -2,11 +2,13 @@ package com.example.woof
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 ///// FOUNDATION
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -41,6 +43,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 
 import com.example.woof.data.Dog
+import com.example.woof.funcions.isChangedBackgroundColor
 import com.example.woof.funcions.isClickExpanded
 
 
@@ -56,6 +59,9 @@ fun DogItem(
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
+    val cor by animateColorAsState(
+        targetValue = isChangedBackgroundColor(expanded)
+    )
     Card(modifier = modifier) {
         Column (
             modifier = Modifier.animateContentSize(
@@ -63,7 +69,7 @@ fun DogItem(
                     dampingRatio = Spring.DampingRatioNoBouncy,
                     stiffness = Spring.StiffnessMedium
                 )
-            )
+            ).background(color = cor)
         ) {
             Row(
                 modifier = Modifier
